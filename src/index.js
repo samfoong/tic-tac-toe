@@ -4,23 +4,15 @@ import './index.css';
 
 // Change the Square Render Method to show that value by replacing {/* TODO *}
 class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
+  render() {
+    return (
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
+      </button>
+    );
   }
-    
-    render() {
-      return (
-        <button className="square" onClick={() => this.setState({value: 'X'})}>  
-          {this.state.value}   
-        </button>
-      );  
-    }
-  }
+} 
   
-  // Change the code to pass a value prop to the Square
   class Board extends React.Component {
     constructor(props) {
       super(props);
@@ -28,10 +20,20 @@ class Square extends React.Component {
         squares: Array(9).fill(null),
       };
     }
+
+    handleClick(i) {
+      const squares = this.state.squares.slice();
+      squares[i] = 'X';
+      this.setState({squares: squares});
+    }
     
     renderSquare(i) {
-      return <Square value={i} />;  
-    }
+      return ( 
+      <Square value={this.state.squares[i]}  
+        onClick={() => this.handleClick(i)}
+      />
+    );
+  }
   
     render() {
       const status = 'Next player: X';
